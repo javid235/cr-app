@@ -100,14 +100,14 @@ public class LoginPage extends JPanel {
         signupLink.addActionListener(e -> appWindow.navigateTo("signup"));
 
         // Left Panel (Welcome Message)
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.setBackground(new Color(0, 82, 255));
+        JPanel leftPanel = new JPanel(new BorderLayout());        leftPanel.setBackground(new Color(0, 82, 255));
         
         JPanel welcomeTextPanel = new JPanel(new GridBagLayout());
         welcomeTextPanel.setBackground(new Color(0, 82, 255));
         GridBagConstraints welcomeGbc = new GridBagConstraints();
         welcomeGbc.gridwidth = GridBagConstraints.REMAINDER;
-        welcomeGbc.anchor = GridBagConstraints.CENTER;
+        welcomeGbc.anchor = GridBagConstraints.WEST;
+        welcomeGbc.insets = new Insets(0, 40, 0, 40);
         
         JLabel welcomeLabel = new JLabel("Welcome to");
         welcomeLabel.setForeground(Color.WHITE);
@@ -117,13 +117,13 @@ public class LoginPage extends JPanel {
         collegeLabel.setForeground(Color.WHITE);
         collegeLabel.setFont(new Font("Arial", Font.BOLD, 32));
         
-        JLabel taglineLabel = new JLabel("<html><div style='text-align: center;'>Empowering students with<br>knowledge and skills for a<br>brighter future.</div></html>");
+        JLabel taglineLabel = new JLabel("<html>Empowering students with<br>knowledge and skills for a<br>brighter future.</html>");
         taglineLabel.setForeground(Color.WHITE);
         taglineLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         
         welcomeTextPanel.add(welcomeLabel, welcomeGbc);
         welcomeTextPanel.add(collegeLabel, welcomeGbc);
-        welcomeGbc.insets = new Insets(20, 0, 0, 0);
+        welcomeGbc.insets = new Insets(20, 40, 0, 40);
         welcomeTextPanel.add(taglineLabel, welcomeGbc);
         
         leftPanel.add(welcomeTextPanel, BorderLayout.CENTER);

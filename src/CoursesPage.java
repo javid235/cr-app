@@ -94,7 +94,7 @@ public class CoursesPage extends JPanel {
         slotLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
         // Price and register button panel
-        JPanel priceRegisterPanel = new JPanel(new BorderLayout(5, 5));
+        JPanel priceRegisterPanel = new JPanel(new BorderLayout(5, 15));
         priceRegisterPanel.setBackground(new Color(240, 240, 240));
 
         JLabel priceLabel = new JLabel(String.format("Rs %.2f", course.getFee()));
@@ -106,6 +106,10 @@ public class CoursesPage extends JPanel {
         registerButton.setForeground(Color.WHITE);
         registerButton.setFocusPainted(false);
         registerButton.setFont(new Font("Arial", Font.BOLD, 14));
+        registerButton.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(0, 102, 255), 1, true),
+            BorderFactory.createEmptyBorder(8, 12, 8, 12)
+        ));
         registerButton.addActionListener(e -> {
             if (!appWindow.getUserDatabase().isLoggedIn()) {
                 JOptionPane.showMessageDialog(this,
@@ -122,7 +126,7 @@ public class CoursesPage extends JPanel {
                     JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
-            appWindow.navigateTo("register");
+            appWindow.navigateTo("register", course.getCourseId());
         });
 
         priceRegisterPanel.add(priceLabel, BorderLayout.NORTH);

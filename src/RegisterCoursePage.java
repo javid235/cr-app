@@ -5,6 +5,10 @@ public class RegisterCoursePage extends JPanel {
     private AppWindow appWindow;
 
     public RegisterCoursePage(AppWindow appWindow) {
+        this(appWindow, null);
+    }
+
+    public RegisterCoursePage(AppWindow appWindow, String selectedCourseId) {
         this.appWindow = appWindow;
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
@@ -37,9 +41,17 @@ public class RegisterCoursePage extends JPanel {
         formPanel.add(courseLabel, gbc);
 
         JComboBox<String> courseComboBox = new JComboBox<>();
+        int selectedIndex = 0;
+        int currentIndex = 0;
         for (Course course : appWindow.getCourseData().getAllCourses()) {
-            courseComboBox.addItem(course.getCourseId() + " - " + course.getTitle());
+            String courseItem = course.getCourseId() + " - " + course.getTitle();
+            courseComboBox.addItem(courseItem);
+            if (selectedCourseId != null && course.getCourseId().equals(selectedCourseId)) {
+                selectedIndex = currentIndex;
+            }
+            currentIndex++;
         }
+        courseComboBox.setSelectedIndex(selectedIndex);
         formPanel.add(courseComboBox, gbc);
 
         // Payment Information
@@ -95,8 +107,8 @@ public class RegisterCoursePage extends JPanel {
                 return;
             }
 
-            String selectedCourseId = ((String) courseComboBox.getSelectedItem()).split(" - ")[0];
-            Course selectedCourse = appWindow.getCourseData().getCourseById(selectedCourseId);
+            String extractedCourseId = ((String) courseComboBox.getSelectedItem()).split(" - ")[0];
+            Course selectedCourse = appWindow.getCourseData().getCourseById(extractedCourseId);
 
             if (selectedCourse != null && selectedCourse.hasAvailableSeats()) {
                 User currentUser = appWindow.getUserDatabase().getCurrentUser();

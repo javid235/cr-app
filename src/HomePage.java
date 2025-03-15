@@ -2,68 +2,121 @@ import javax.swing.*;
 import java.awt.*;
 
 public class HomePage extends JPanel {
-    public HomePage() {
+    private AppWindow appWindow;
+
+    public HomePage(AppWindow appWindow) {
+        this.appWindow = appWindow;
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
-        // Welcome Panel
-        JPanel welcomePanel = new JPanel(new BorderLayout());
-        welcomePanel.setBackground(new Color(51, 51, 51));
-        welcomePanel.setPreferredSize(new Dimension(getWidth(), 300));
+        // Hero Section
+        JPanel heroPanel = new JPanel(new BorderLayout());
+        heroPanel.setBackground(new Color(0, 82, 255));
+        heroPanel.setPreferredSize(new Dimension(getWidth(), 400));
+        
+        JPanel heroContent = new JPanel(new GridBagLayout());
+        heroContent.setBackground(new Color(0, 82, 255));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(0, 40, 0, 40);
 
-        JLabel welcomeLabel = new JLabel("Welcome to Our College");
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 48));
+        JLabel welcomeLabel = new JLabel("Welcome to");
         welcomeLabel.setForeground(Color.WHITE);
-        welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        welcomeLabel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 48));
+        
+        JLabel collegeLabel = new JLabel("Jamal Mohamed College");
+        collegeLabel.setForeground(Color.WHITE);
+        collegeLabel.setFont(new Font("Arial", Font.BOLD, 48));
+        
+        JLabel taglineLabel = new JLabel("<html>Empowering students with knowledge and<br>skills for a brighter future.</html>");
+        taglineLabel.setForeground(Color.WHITE);
+        taglineLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        
+        JButton exploreButton = new JButton("Explore Courses");
+        exploreButton.setFont(new Font("Arial", Font.BOLD, 16));
+        exploreButton.setBackground(Color.WHITE);
+        exploreButton.setForeground(new Color(0, 82, 255));
+        exploreButton.setFocusPainted(false);
+        exploreButton.setBorder(BorderFactory.createEmptyBorder(15, 30, 15, 30));
+        exploreButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        exploreButton.addActionListener(e -> appWindow.navigateTo("courses"));
 
-        JLabel subtitleLabel = new JLabel("Empowering Minds, Shaping Futures");
-        subtitleLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        subtitleLabel.setForeground(new Color(200, 200, 200));
-        subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        subtitleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
+        heroContent.add(welcomeLabel, gbc);
+        heroContent.add(collegeLabel, gbc);
+        gbc.insets = new Insets(20, 40, 30, 40);
+        heroContent.add(taglineLabel, gbc);
+        gbc.insets = new Insets(10, 40, 0, 40);
+        heroContent.add(exploreButton, gbc);
 
-        welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
-        welcomePanel.add(subtitleLabel, BorderLayout.SOUTH);
+        heroPanel.add(heroContent, BorderLayout.CENTER);
 
-        // Content Panel
-        JPanel contentPanel = new JPanel(new GridLayout(2, 2, 20, 20));
-        contentPanel.setBackground(Color.WHITE);
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
+        // Features Section
+        JPanel featuresPanel = new JPanel(new GridLayout(1, 3, 20, 0));
+        featuresPanel.setBackground(Color.WHITE);
+        featuresPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
 
-        // Add feature cards
-        contentPanel.add(createFeatureCard("Excellence in Education", "Our college offers world-class education with state-of-the-art facilities."));
-        contentPanel.add(createFeatureCard("Expert Faculty", "Learn from industry experts and renowned academicians."));
-        contentPanel.add(createFeatureCard("Career Support", "Comprehensive career guidance and placement assistance."));
-        contentPanel.add(createFeatureCard("Modern Campus", "Experience learning in our modern, tech-enabled campus."));
+        featuresPanel.add(createFeatureCard(
+            "Excellence in Education",
+            "Providing high-quality education with modern facilities and experienced faculty.",
+            "🎓"
+        ));
 
-        add(welcomePanel, BorderLayout.NORTH);
-        add(contentPanel, BorderLayout.CENTER);
+        featuresPanel.add(createFeatureCard(
+            "Industry Connection",
+            "Strong ties with industry partners ensuring great career opportunities.",
+            "🤝"
+        ));
+
+        featuresPanel.add(createFeatureCard(
+            "Student Success",
+            "Focused on holistic development with excellent placement records.",
+            "🌟"
+        ));
+
+        // Main Content Panel
+        JPanel mainContent = new JPanel(new BorderLayout());
+        mainContent.setBackground(Color.WHITE);
+        mainContent.add(featuresPanel, BorderLayout.NORTH);
+
+        // Add components to main panel
+        add(heroPanel, BorderLayout.NORTH);
+        add(mainContent, BorderLayout.CENTER);
     }
 
-    private JPanel createFeatureCard(String title, String description) {
-        JPanel card = new JPanel(new BorderLayout());
+    private JPanel createFeatureCard(String title, String description, String icon) {
+        JPanel card = new JPanel(new BorderLayout(0, 20));
         card.setBackground(Color.WHITE);
         card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200)),
-            BorderFactory.createEmptyBorder(20, 20, 20, 20)
+            BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
+            BorderFactory.createEmptyBorder(30, 30, 30, 30)
         ));
+
+        JLabel iconLabel = new JLabel(icon);
+        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 48));
+        iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        iconLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        titleLabel.setForeground(new Color(51, 51, 51));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         JTextArea descLabel = new JTextArea(description);
         descLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        descLabel.setForeground(new Color(102, 102, 102));
         descLabel.setLineWrap(true);
         descLabel.setWrapStyleWord(true);
         descLabel.setEditable(false);
         descLabel.setBackground(Color.WHITE);
-        descLabel.setBorder(null);
+        descLabel.setForeground(new Color(100, 100, 100));
+        descLabel.setHighlighter(null);
 
-        card.add(titleLabel, BorderLayout.NORTH);
-        card.add(descLabel, BorderLayout.CENTER);
+        JPanel textPanel = new JPanel(new BorderLayout(0, 10));
+        textPanel.setBackground(Color.WHITE);
+        textPanel.add(titleLabel, BorderLayout.NORTH);
+        textPanel.add(descLabel, BorderLayout.CENTER);
+
+        card.add(iconLabel, BorderLayout.NORTH);
+        card.add(textPanel, BorderLayout.CENTER);
 
         return card;
     }

@@ -7,6 +7,7 @@ public class AppWindow extends JFrame {
     private NavigationBar navigationBar;
     private UserDatabase userDatabase;
     private CourseData courseData;
+    private RegisterCoursePage registerPage;
     
     public AppWindow() {
         setTitle("Course Registration System");
@@ -34,21 +35,32 @@ public class AppWindow extends JFrame {
         add(contentPanel, BorderLayout.CENTER);
 
         // Add pages
-        contentPanel.add(new HomePage(), "home");
+        contentPanel.add(new HomePage(this), "home");
         contentPanel.add(new CoursesPage(this), "courses");
         contentPanel.add(new LoginPage(this), "login");
         contentPanel.add(new SignupPage(this), "signup");
         contentPanel.add(new DashboardPage(this), "dashboard");
         contentPanel.add(new AboutPage(), "about");
         contentPanel.add(new ContactPage(), "contact");
-        contentPanel.add(new RegisterCoursePage(this), "register");
+        registerPage = new RegisterCoursePage(this);
+        contentPanel.add(registerPage, "register");
 
         // Show home page by default and update navigation bar visibility
         navigateTo("home");
     }
 
     public void navigateTo(String page) {
+        navigateTo(page, null);
+    }
+
+    public void navigateTo(String page, String param) {
         cardLayout.show(contentPanel, page);
+        if (page.equals("register") && param != null) {
+            contentPanel.remove(registerPage);
+            registerPage = new RegisterCoursePage(this, param);
+            contentPanel.add(registerPage, "register");
+            cardLayout.show(contentPanel, "register");
+        }
         // Show navigation bar for all pages except login and signup
         navigationBar.setVisible(!page.equals("login") && !page.equals("signup"));
     }
